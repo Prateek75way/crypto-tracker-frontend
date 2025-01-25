@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import PageNotFound from "./pages/PageNotFound";
 
 // Lazy load the components
 const Login = React.lazy(() => import("./pages/Login"));
@@ -75,10 +76,7 @@ const App: React.FC = () => {
           <Route
             path="*"
             element={
-              <div style={{ textAlign: "center", marginTop: "2rem" }}>
-                <h1>404 - Page Not Found</h1>
-                <a href="/">Go to Home</a>
-              </div>
+              <PageNotFound />
             }
           />
         </Routes>
