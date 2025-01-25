@@ -44,7 +44,7 @@ const Transfer: React.FC = () => {
 
     try {
       const response = await transfer(transferData).unwrap();
-      
+      toast.success(response.message); // Display success notification
       if (isSuccess) {
         toast.success(response.message); // Display success notification
         setTransferSuccess(true);
@@ -54,8 +54,8 @@ const Transfer: React.FC = () => {
       setErrorMessage(error?.message || "Transfer failed.");
       toast.error(errorMessage); // Display error message
     }
+    
   };
-
   return (
     <>
       <ResponsiveAppBar />
