@@ -1,5 +1,3 @@
-// src/pages/Home/Home.tsx
-
 import React from "react";
 import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -13,21 +11,48 @@ const Home: React.FC = () => {
       <Container sx={{ marginTop: 4 }}>
         {/* Hero Section */}
         <Box sx={{ textAlign: "center", marginBottom: 4 }}>
-          <Typography variant="h3" gutterBottom>
-            Welcome to Crypto Tracker
-          </Typography>
-          <Typography variant="h6" paragraph>
-            Track your cryptocurrency investments and manage your portfolio with ease.
-          </Typography>
-          <Button variant="contained" color="primary" component={Link} to="/dashboard">
-            Get Started
-          </Button>
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 50 }}
+          >
+            <Typography variant="h3" gutterBottom>
+              Welcome to Crypto Tracker
+            </Typography>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 50, delay: 0.2 }}
+          >
+            <Typography variant="h6" paragraph>
+              Track your cryptocurrency investments and manage your portfolio with ease.
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ type: "spring", stiffness: 50, delay: 0.4 }}
+          >
+            <Button variant="contained" color="primary" component={Link} to="/dashboard">
+              Get Started
+            </Button>
+          </motion.div>
         </Box>
 
         {/* Features Section */}
-        <Typography variant="h4" align="center" gutterBottom>
-          Features
-        </Typography>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ type: "spring", stiffness: 50, delay: 0.6 }}
+        >
+          <Typography variant="h4" align="center" gutterBottom>
+            Features
+          </Typography>
+        </motion.div>
+
         <Grid container spacing={4} justifyContent="center">
           {[
             {
@@ -50,6 +75,9 @@ const Home: React.FC = () => {
               <motion.div
                 whileHover={{ scale: 1.05 }} // Scale effect on hover
                 transition={{ type: "spring", stiffness: 300 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index * 0.2 }} // Staggered animation for each feature
               >
                 <Card>
                   <CardContent>
@@ -73,12 +101,25 @@ const Home: React.FC = () => {
 
         {/* Call to Action Section */}
         <Box sx={{ textAlign: "center", marginTop: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            Ready to take control of your crypto investments?
-          </Typography>
-          <Button variant="contained" color="primary" component={Link} to="/register">
-            Sign Up Now
-          </Button>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ type: "spring", stiffness: 50, delay: 0.8 }}
+          >
+            <Typography variant="h5" gutterBottom>
+              Ready to take control of your crypto investments?
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ type: "spring", stiffness: 50, delay: 1 }}
+          >
+            <Button variant="contained" color="primary" component={Link} to="/register">
+              Sign Up Now
+            </Button>
+          </motion.div>
         </Box>
       </Container>
     </>

@@ -11,4 +11,5 @@ const store = configureStore({
     getDefaultMiddleware().concat(authApi.middleware), // Add the RTK Query middleware here
 });
 
+export type RootState = ReturnType<typeof store.getState>;
 export default store;
