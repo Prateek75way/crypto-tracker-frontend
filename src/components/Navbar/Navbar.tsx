@@ -48,7 +48,7 @@ const ResponsiveAppBar: React.FC = () => {
   const handleLogout = () => {
     dispatch(resetTokens()); // Dispatch logout action
     localStorage.removeItem("User"); // Remove user from local storage
-    navigate("/login"); // Redirect to login page
+    navigate("/"); // Redirect to login page
   };
 
   const handleNavigateHome = () => {

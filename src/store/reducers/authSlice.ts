@@ -32,7 +32,7 @@ export const authSlice = createSlice({
     // Set user tokens (used for both login and registration)
     setTokens: (
       state,
-      action: PayloadAction<{ accessToken: string; refreshToken: string , user: any}>
+      action: PayloadAction<{ accessToken: string; refreshToken: string; user: any }>
     ) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
@@ -40,7 +40,6 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
 
       console.log("action.payload.accessToken", action.payload.accessToken);
-      
 
       // Store tokens in localStorage
       localStorage.setItem("AccessToken", action.payload.accessToken);
@@ -80,9 +79,31 @@ export const authSlice = createSlice({
         state.refreshToken = "";
       }
     },
+
+    // Refresh tokens (new logic appended here)
+    refreshTokens: (
+      state,
+      action: PayloadAction<{ accessToken: string; refreshToken: string }>
+    ) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+
+      // Store the new tokens in localStorage
+      localStorage.setItem("AccessToken", action.payload.accessToken);
+      localStorage.setItem("RefreshToken", action.payload.refreshToken);
+
+      console.log("Tokens refreshed successfully");
+    },
   },
 });
 
-export const { setLoading, setTokens, resetTokens, setError, checkLoginStatus } = authSlice.actions;
+export const {
+  setLoading,
+  setTokens,
+  resetTokens,
+  setError,
+  checkLoginStatus,
+  refreshTokens, // Export the new action
+} = authSlice.actions;
 
 export default authSlice.reducer;
