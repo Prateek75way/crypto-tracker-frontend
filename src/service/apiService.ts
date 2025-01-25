@@ -44,6 +44,7 @@ export const baseQueryWithReauthHandler = async (args, api, extraOptions) => {
       api.dispatch(setTokens({ accessToken, refreshToken, user }));
       localStorage.setItem("AccessToken", accessToken);
       localStorage.setItem("RefreshToken", refreshToken);
+      localStorage.setItem("User", JSON.stringify(user));
 
       // Retry the original request
       result = await baseQuery(args, api, extraOptions);
@@ -133,12 +134,12 @@ export const authApi = createApi({
     }),
 
     fetchPrices: builder.query({
-      query: ({ symbols, currency }) => ({
+      query: ({ symbols }) => ({
         url: `/crypto/prices`,
         method: "GET",
         params: {
           symbols: symbols.join(','), // Convert the array to a comma-separated string
-          currency,
+          
         },
       }),
     }),
