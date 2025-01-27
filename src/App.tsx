@@ -18,7 +18,7 @@ const Prices = React.lazy(() => import("./pages/Prices"));
 const PasswordReset = React.lazy(() => import("./pages/Password-Reset"));
 
 const App: React.FC = () => {
-  return (
+  return ( 
     <Router>
       <ToastContainer />
       <Suspense fallback={<Loading />}>
