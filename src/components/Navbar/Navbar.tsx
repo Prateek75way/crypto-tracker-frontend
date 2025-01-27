@@ -184,7 +184,17 @@ const ResponsiveAppBar: React.FC = () => {
                     <Typography sx={{ color: "white", fontWeight: "bold", mr: 1 }}>
                       {user.name}
                     </Typography>
-                    <Avatar alt={user.name} />
+                    {/* First Letter Avatar */}
+                    <Avatar
+                      sx={{
+                        bgcolor: "white",
+                        color: "#3f51b5",
+                        fontWeight: "bold",
+                        fontSize: "1.2rem",
+                      }}
+                    >
+                      {user.name.charAt(0).toUpperCase()}
+                    </Avatar>
                   </IconButton>
                 </Tooltip>
                 <Menu
