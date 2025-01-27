@@ -1,27 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Box,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TextField,
+  IconButton,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import ResponsiveAppBar from "../../components/Navbar/Navbar";
-import { motion } from "framer-motion"; // Import Framer Motion
-import { useAppSelector } from "../../hooks/reduxHooks"; // Import the custom hook to access the state
+import { motion } from "framer-motion";
+import { useAppSelector } from "../../hooks/reduxHooks";
+import { TrendingUp, SwapHoriz, ExpandMore, Facebook, Twitter, LinkedIn } from "@mui/icons-material"; // Import icons
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 const Home: React.FC = () => {
-  const { isAuthenticated } = useAppSelector((state) => state.auth); // Get authentication status from Redux store
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const [isSplashVisible, setSplashVisible] = useState(true);
-
-  // Check if user is in localStorage
   const isUserInLocalStorage = localStorage.getItem("User");
 
-  // Hide the splash screen after 3 seconds, but only if no user in localStorage
   useEffect(() => {
     if (!isUserInLocalStorage) {
       const timer = setTimeout(() => {
         setSplashVisible(false);
-      }, 3000); // Splash screen stays visible for 3 seconds
+      }, 3000);
 
       return () => clearTimeout(timer);
     } else {
-      setSplashVisible(false); // Skip splash screen if user is found
+      setSplashVisible(false);
     }
   }, [isUserInLocalStorage]);
 
@@ -36,7 +49,7 @@ const Home: React.FC = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "#3f51b5", // Background color
+            background: "linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -44,24 +57,24 @@ const Home: React.FC = () => {
           }}
         >
           <motion.div
-            style={{ display: "flex", alignItems: "center" }} // Flexbox for horizontal alignment
+            style={{ display: "flex", alignItems: "center" }}
           >
             <motion.div
-              initial={{ x: -50, opacity: 0 }} // Start position and opacity
-              animate={{ x: 0, opacity: 1 }} // End position and opacity
-              transition={{ duration: 0.5 }} // Animation duration
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
             >
-              <Typography variant="h3" color="white">
+              <Typography variant="h3" color="white" fontWeight="bold">
                 Crypto
               </Typography>
             </motion.div>
 
             <motion.div
-              initial={{ x: 50, opacity: 0 }} // Start position and opacity
-              animate={{ x: 0, opacity: 1 }} // End position and opacity
-              transition={{ duration: 0.5, delay: 0.5 }} // Delay for the second text
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <Typography variant="h3" color="white" style={{ marginLeft: '10px' }}>
+              <Typography variant="h3" color="white" fontWeight="bold" style={{ marginLeft: '10px' }}>
                 Tracker
               </Typography>
             </motion.div>
@@ -69,19 +82,28 @@ const Home: React.FC = () => {
         </motion.div>
       )}
 
-      {/* Main content */}
+      {/* Main Content */}
       {!isSplashVisible && (
         <>
           <ResponsiveAppBar />
           <Container sx={{ marginTop: 4 }}>
             {/* Hero Section */}
-            <Box sx={{ textAlign: "center", marginBottom: 4 }}>
+            <Box
+              sx={{
+                textAlign: "center",
+                marginBottom: 8,
+                padding: 6,
+                background: "linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)",
+                borderRadius: 4,
+                color: "white",
+              }}
+            >
               <motion.div
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: "spring", stiffness: 50 }}
               >
-                <Typography variant="h3" gutterBottom>
+                <Typography variant="h3" gutterBottom fontWeight="bold">
                   Welcome to Crypto Tracker
                 </Typography>
               </motion.div>
@@ -101,10 +123,54 @@ const Home: React.FC = () => {
                 animate={{ opacity: 1 }}
                 transition={{ type: "spring", stiffness: 50, delay: 0.4 }}
               >
-                <Button variant="contained" color="primary" component={Link} to="/dashboard">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  component={Link}
+                  to="/dashboard"
+                  size="large"
+                  sx={{ fontWeight: "bold", borderRadius: 2 }}
+                >
                   Get Started
                 </Button>
               </motion.div>
+            </Box>
+
+            {/* Statistics Section */}
+            <Box sx={{ textAlign: "center", marginBottom: 8 }}>
+              <Typography variant="h4" gutterBottom fontWeight="bold" color="primary">
+                Why Choose Us?
+              </Typography>
+              <Grid container spacing={4} justifyContent="center">
+                {[
+                  { value: "1M+", label: "Active Users" },
+                  { value: "$10B+", label: "Transactions" },
+                  { value: "100+", label: "Supported Cryptos" },
+                ].map((stat, index) => (
+                  <Grid item xs={12} sm={4} key={index}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.2 }}
+                    >
+                      <Card
+                        sx={{
+                          padding: 4,
+                          borderRadius: 4,
+                          boxShadow: 3,
+                          background: "linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)",
+                          color: "white",
+                        }}
+                      >
+                        <Typography variant="h3" fontWeight="bold">
+                          {stat.value}
+                        </Typography>
+                        <Typography variant="h6">{stat.label}</Typography>
+                      </Card>
+                    </motion.div>
+                  </Grid>
+                ))}
+              </Grid>
             </Box>
 
             {/* Features Section */}
@@ -113,7 +179,7 @@ const Home: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ type: "spring", stiffness: 50, delay: 0.6 }}
             >
-              <Typography variant="h4" align="center" gutterBottom>
+              <Typography variant="h4" align="center" gutterBottom fontWeight="bold" color="primary">
                 Features
               </Typography>
             </motion.div>
@@ -124,38 +190,64 @@ const Home: React.FC = () => {
                   title: "Real-Time Prices",
                   description: "Get the latest prices for your favorite cryptocurrencies.",
                   link: "/get-prices",
+                  icon: <TrendingUp fontSize="large" color="primary" />,
                 },
                 {
                   title: "Portfolio Management",
                   description: "Manage your crypto portfolio and track your investments.",
                   link: "/dashboard",
+                  icon: <AssignmentIndIcon fontSize="large" color="primary" />,
                 },
                 {
                   title: "Transfer Crypto",
                   description: "Easily transfer cryptocurrencies between accounts.",
                   link: "/transfer",
+                  icon: <SwapHoriz fontSize="large" color="primary" />,
                 },
               ].map((feature, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <motion.div
-                    whileHover={{ scale: 1.05 }} // Scale effect on hover
+                    whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300 }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.2 }} // Staggered animation for each feature
+                    transition={{ delay: index * 0.2 }}
                   >
-                    <Card>
+                    <Card
+                      sx={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        borderRadius: 4,
+                        boxShadow: 3,
+                        transition: "transform 0.3s, box-shadow 0.3s",
+                        "&:hover": {
+                          transform: "translateY(-5px)",
+                          boxShadow: 6,
+                        },
+                      }}
+                    >
                       <CardContent>
-                        <Typography variant="h5" component="div">
+                        <Box sx={{ textAlign: "center", marginBottom: 2 }}>
+                          {feature.icon}
+                        </Box>
+                        <Typography variant="h5" component="div" fontWeight="bold" color="primary" align="center">
                           {feature.title}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 2 }}>
                           {feature.description}
                         </Typography>
                       </CardContent>
-                      <CardActions>
-                        <Button size="small" component={Link} to={feature.link}>
-                          View
+                      <CardActions sx={{ justifyContent: "center", marginBottom: 2 }}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          component={Link}
+                          to={feature.link}
+                          sx={{ borderRadius: 2 }}
+                        >
+                          Learn More
                         </Button>
                       </CardActions>
                     </Card>
@@ -164,32 +256,137 @@ const Home: React.FC = () => {
               ))}
             </Grid>
 
-            {/* Call to Action Section */}
-            <Box sx={{ textAlign: "center", marginTop: 4 }}>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ type: "spring", stiffness: 50, delay: 0.8 }}
-              >
-                <Typography variant="h5" gutterBottom>
-                  {isAuthenticated
-                    ? "You're all set! Start managing your crypto portfolio."
-                    : "Ready to take control of your crypto investments?"}
-                </Typography>
-              </motion.div>
+            {/* Testimonials Section */}
+            <Box sx={{ textAlign: "center", marginTop: 8, marginBottom: 8 }}>
+              <Typography variant="h4" gutterBottom fontWeight="bold" color="primary">
+                What Our Users Say
+              </Typography>
+              <Grid container spacing={4} justifyContent="center">
+                {[
+                  {
+                    name: "John Doe",
+                    testimonial: "Crypto Tracker has made managing my portfolio so easy! Highly recommended.",
+                  },
+                  {
+                    name: "Jane Smith",
+                    testimonial: "The real-time prices feature is a game-changer. Love it!",
+                  },
+                  {
+                    name: "Alex Johnson",
+                    testimonial: "Great platform for both beginners and experts. Very intuitive.",
+                  },
+                ].map((testimonial, index) => (
+                  <Grid item xs={12} sm={4} key={index}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.2 }}
+                    >
+                      <Card
+                        sx={{
+                          padding: 4,
+                          borderRadius: 4,
+                          boxShadow: 3,
+                        }}
+                      >
+                        <Typography variant="body1" fontStyle="italic" sx={{ mb: 2 }}>
+                          "{testimonial.testimonial}"
+                        </Typography>
+                        <Typography variant="h6" fontWeight="bold" color="primary">
+                          - {testimonial.name}
+                        </Typography>
+                      </Card>
+                    </motion.div>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
 
-              {/* Conditionally render the Sign Up Now button */}
-              {!isAuthenticated && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 50, delay: 1 }}
-                >
-                  <Button variant="contained" color="primary" component={Link} to="/register">
-                    Sign Up Now
-                  </Button>
-                </motion.div>
-              )}
+            {/* FAQ Section */}
+            <Box sx={{ marginBottom: 8 }}>
+              <Typography variant="h4" align="center" gutterBottom fontWeight="bold" color="primary">
+                Frequently Asked Questions
+              </Typography>
+              {[
+                {
+                  question: "How do I get started?",
+                  answer: "Simply sign up, connect your wallet, and start tracking your crypto investments.",
+                },
+                {
+                  question: "Is Crypto Tracker free?",
+                  answer: "Yes, our basic features are free to use. We also offer premium plans for advanced features.",
+                },
+                {
+                  question: "Can I track multiple wallets?",
+                  answer: "Absolutely! You can connect and track multiple wallets in one place.",
+                },
+              ].map((faq, index) => (
+                <Accordion key={index} sx={{ mb: 2, borderRadius: 2, boxShadow: 3 }}>
+                  <AccordionSummary expandIcon={<ExpandMore />}>
+                    <Typography fontWeight="bold">{faq.question}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>{faq.answer}</Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </Box>
+
+            {/* Newsletter Section */}
+            <Box
+              sx={{
+                textAlign: "center",
+                padding: 6,
+                background: "linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)",
+                borderRadius: 4,
+                color: "white",
+                marginBottom: 8,
+              }}
+            >
+              <Typography variant="h4" gutterBottom fontWeight="bold">
+                Subscribe to Our Newsletter
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 4 }}>
+                Stay updated with the latest crypto trends and news.
+              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+                <TextField
+                  variant="outlined"
+                  placeholder="Enter your email"
+                  sx={{ background: "white", borderRadius: 2 }}
+                />
+                <Button variant="contained" color="secondary" sx={{ borderRadius: 2 }}>
+                  Subscribe
+                </Button>
+              </Box>
+            </Box>
+
+            {/* Footer */}
+            <Box
+              sx={{
+                textAlign: "center",
+                padding: 4,
+                background: "#f5f5f5",
+                borderRadius: 4,
+              }}
+            >
+              <Typography variant="h6" fontWeight="bold" color="primary" sx={{ mb: 2 }}>
+                Crypto Tracker
+              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mb: 2 }}>
+                <IconButton color="primary">
+                  <Facebook />
+                </IconButton>
+                <IconButton color="primary">
+                  <Twitter />
+                </IconButton>
+                <IconButton color="primary">
+                  <LinkedIn />
+                </IconButton>
+              </Box>
+              <Typography variant="body2" color="text.secondary">
+                © 2023 Crypto Tracker. All rights reserved.
+              </Typography>
             </Box>
           </Container>
         </>

@@ -14,6 +14,7 @@ import Avatar from "@mui/material/Avatar";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { resetTokens } from "../../store/reducers/authSlice";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const getUserFromLocalStorage = () => {
   const user = localStorage.getItem("User");
@@ -61,7 +62,7 @@ const ResponsiveAppBar: React.FC = () => {
     <AppBar
       position="static"
       sx={{
-        background: "background: linear-gradient(to right, #00c6ff, #0072ff);",
+        background: "linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)",
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
@@ -155,11 +156,19 @@ const ResponsiveAppBar: React.FC = () => {
           {/* Navigation Menu for Desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {user &&
-              [ "Buy", "Transfer", "Profit-and-Loss"].map((page) => (
+              ["Buy", "Transfer", "Profit-and-Loss"].map((page) => (
                 <Button
                   key={page}
                   onClick={() => navigate(`/${page.toLowerCase()}`)}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    "&:hover": {
+                      background: "rgba(255, 255, 255, 0.1)",
+                      borderRadius: 2,
+                    },
+                  }}
                 >
                   {page}
                 </Button>
@@ -212,14 +221,28 @@ const ResponsiveAppBar: React.FC = () => {
             ) : isLoginPage ? (
               <Button
                 onClick={() => navigate("/")}
-                sx={{ color: "white", fontWeight: "bold" }}
+                sx={{
+                  color: "white",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    background: "rgba(255, 255, 255, 0.1)",
+                    borderRadius: 2,
+                  },
+                }}
               >
                 Home
               </Button>
             ) : (
               <Button
                 onClick={() => navigate("/login")}
-                sx={{ color: "white", fontWeight: "bold" }}
+                sx={{
+                  color: "white",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    background: "rgba(255, 255, 255, 0.1)",
+                    borderRadius: 2,
+                  },
+                }}
               >
                 Sign In
               </Button>

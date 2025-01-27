@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import PageNotFound from "./pages/PageNotFound";
+import Loading from "./pages/Loading";
 
 // Lazy load the components
 const Login = React.lazy(() => import("./pages/Login"));
@@ -20,7 +21,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <ToastContainer />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />

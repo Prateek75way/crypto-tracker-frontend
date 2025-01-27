@@ -20,10 +20,7 @@ const Transaction: React.FC = () => {
   const [amount, setAmount] = useState<number | "">("");
   const navigate = useNavigate();
 
-  const [
-    createTransaction,
-    { isLoading },
-  ] = useCreateTransactionMutation();
+  const [createTransaction, { isLoading }] = useCreateTransactionMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,104 +50,148 @@ const Transaction: React.FC = () => {
   return (
     <>
       <ResponsiveAppBar /> {/* Navbar stays on top */}
-      
       <ToastContainer />
 
-      {/* Form Modal Content with Animation */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        style={{
-          backgroundColor: "white",
+      {/* Gradient Background */}
+      <Box
+        sx={{
+          minHeight: "100vh",
+          background: "linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           padding: "2rem",
-          borderRadius: "8px",
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-          width: "100%",
-          maxWidth: "400px", // Responsive width
-          margin: "auto",
-          marginTop: "2rem",
         }}
       >
-        <Typography variant="h4" gutterBottom align="center">
-          Create Transaction
-        </Typography>
-
-        <form onSubmit={handleSubmit}>
-          {/* Animated Inputs */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+        {/* Form Container with Glassmorphism Effect */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            padding: "2rem",
+            borderRadius: "8px",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+            width: "100%",
+            maxWidth: "400px", // Responsive width
+            backdropFilter: "blur(10px)",
+          }}
+        >
+          <Typography
+            variant="h4"
+            gutterBottom
+            align="center"
+            fontWeight="bold"
+            color="primary"
           >
-            <TextField
-              label="Cryptocurrency Symbol"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={symbol}
-              onChange={(e) => setSymbol(e.target.value)}
-              required
-            />
-          </motion.div>
+            Create Transaction
+          </Typography>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            <TextField
-              select
-              label="Transaction Type"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              required
+          <form onSubmit={handleSubmit}>
+            {/* Animated Inputs */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
             >
-              <MenuItem value="BUY">BUY</MenuItem>
-              <MenuItem value="SELL">SELL</MenuItem>
-            </TextField>
-          </motion.div>
+              <TextField
+                label="Cryptocurrency Symbol"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={symbol}
+                onChange={(e) => setSymbol(e.target.value)}
+                required
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                  },
+                }}
+              />
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            <TextField
-              label="Amount"
-              variant="outlined"
-              type="number"
-              fullWidth
-              margin="normal"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              required
-            />
-          </motion.div>
-
-          {/* Submit Button Animation */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
-            <Box sx={{ textAlign: "center", mt: 2 }}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={isLoading}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              <TextField
+                select
+                label="Transaction Type"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                required
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                  },
+                }}
               >
-                {isLoading ? <CircularProgress size={24} /> : "Submit"}
-              </Button>
-            </Box>
-          </motion.div>
-        </form>
-      </motion.div>
+                <MenuItem value="BUY">BUY</MenuItem>
+                <MenuItem value="SELL">SELL</MenuItem>
+              </TextField>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <TextField
+                label="Amount"
+                variant="outlined"
+                type="number"
+                fullWidth
+                margin="normal"
+                value={amount}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                required
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                  },
+                }}
+              />
+            </motion.div>
+
+            {/* Submit Button Animation */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+            >
+              <Box sx={{ textAlign: "center", mt: 2 }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={isLoading}
+                  sx={{
+                    borderRadius: 2,
+                    padding: "12px 24px",
+                    fontWeight: "bold",
+                    background: "linear-gradient(135deg, #3f51b5 0%, #2196f3 100%)",
+                    "&:hover": {
+                      background: "linear-gradient(135deg, #2196f3 0%, #3f51b5 100%)",
+                    },
+                  }}
+                >
+                  {isLoading ? (
+                    <CircularProgress size={24} sx={{ color: "white" }} />
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
+              </Box>
+            </motion.div>
+          </form>
+        </motion.div>
+      </Box>
     </>
   );
 };

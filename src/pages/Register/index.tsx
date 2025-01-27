@@ -2,13 +2,19 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { TextField, Button, Typography, Box, CircularProgress } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+  Box,
+} from "@mui/material";
 import { useRegisterMutation } from "../../service/apiService";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ResponsiveAppBar from "../../components/Navbar/Navbar";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
 
 // Validation schema for the form
 const schema = yup.object({
@@ -28,7 +34,7 @@ interface RegisterFormInputs {
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
-  const [registerUser, { isLoading, error }] = useRegisterMutation(); // RTK Query mutation
+  const [registerUser, { isLoading }] = useRegisterMutation();
 
   const {
     register,
@@ -41,46 +47,32 @@ const Register: React.FC = () => {
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     try {
       const requestData = { ...data, active: true };
-      // Call the register API
       const response = await registerUser(requestData).unwrap();
-      console.log("Registration successful:", response);
-
-      // Show success toast notification
       toast.success("Registration successful! Please log in.");
-
-      // Redirect to login or dashboard
       navigate("/login");
     } catch (err) {
       console.error("Registration failed:", err);
-
-      // Show error toast notification
       toast.error("Registration failed. Please try again.");
     }
-  };
-
-  const handleNavigateToLogin = () => {
-    navigate("/login");
   };
 
   return (
     <>
       <ResponsiveAppBar />
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        style={{
+      <ToastContainer />
+      <Box
+        sx={{
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark backdrop
+          backgroundColor: "rgba(0, 0, 0, 0.6)", // Dark backdrop
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           zIndex: 1000,
+          padding: "1rem",
         }}
       >
         <motion.div
@@ -91,15 +83,24 @@ const Register: React.FC = () => {
           style={{
             backgroundColor: "white",
             padding: "2rem",
-            borderRadius: "8px",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+            borderRadius: "10px",
+            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
             width: "100%",
-            maxWidth: "400px", // Make sure it's responsive
-            zIndex: 1100, // Ensure the modal is on top of the backdrop
+            maxWidth: "450px",
           }}
         >
-          <Typography variant="h4" gutterBottom align="center">
-            Register
+          <Typography
+            variant="h4"
+            gutterBottom
+            align="center"
+            sx={{
+              fontWeight: "bold",
+              background: "linear-gradient(135deg, #3f51b5, #2196f3)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Create Account
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <motion.div
@@ -159,14 +160,32 @@ const Register: React.FC = () => {
                 variant="contained"
                 color="primary"
                 disabled={isLoading}
-                sx={{ marginTop: 2 }}
+                sx={{
+                  marginTop: 2,
+                  padding: "10px 20px",
+                  background: "linear-gradient(135deg, #3f51b5, #2196f3)",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, #2196f3, #3f51b5)",
+                  },
+                }}
               >
-                {isLoading ? <CircularProgress size={24} color="inherit" /> : "Register"}
+                {isLoading ? (
+                  <CircularProgress size={24} sx={{ color: "white" }} />
+                ) : (
+                  "Register"
+                )}
               </Button>
             </motion.div>
           </form>
 
-          <Typography align="center" sx={{ marginTop: 3, color: "text.secondary" }}>
+          <Typography
+            align="center"
+            sx={{
+              marginTop: 3,
+              color: "text.secondary",
+              fontSize: "0.9rem",
+            }}
+          >
             Already have an account?
           </Typography>
           <motion.div
@@ -178,15 +197,13 @@ const Register: React.FC = () => {
               fullWidth
               variant="outlined"
               color="secondary"
-              onClick={handleNavigateToLogin}
+              onClick={() => navigate("/login")}
               sx={{
                 marginTop: 1,
                 borderColor: "text.secondary",
                 color: "text.secondary",
                 "&:hover": {
-                  backgroundColor: "rgba(0, 0, 0, 0.04)",
-                  borderColor: "text.primary",
-                  color: "text.primary",
+                  backgroundColor: "rgba(0, 0, 0, 0.05)",
                 },
               }}
             >
@@ -194,7 +211,7 @@ const Register: React.FC = () => {
             </Button>
           </motion.div>
         </motion.div>
-      </motion.div>
+      </Box>
     </>
   );
 };
